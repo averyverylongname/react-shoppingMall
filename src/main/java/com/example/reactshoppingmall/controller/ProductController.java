@@ -44,4 +44,10 @@ public class ProductController {
     public String getProductDetail(@PathVariable Integer pid) {
         return RestBean.success(productService.getProductDetail(pid)).asJsonString();
     }
+
+    @PostMapping("/addShoppingCar/{pid}/{uid}")
+    public String addShoppingCar(@PathVariable Integer pid, @PathVariable Integer uid) {
+        productService.addShoppingCar(pid, uid);
+        return RestBean.success().asJsonString();
+    }
 }

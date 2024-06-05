@@ -22,7 +22,7 @@ public class ShoppingCar {
     @Column(name = "total_price")
     private Double totalPrice;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "uid", nullable = false)
     private User user;
 }

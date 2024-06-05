@@ -8,5 +8,5 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/shopping_mall?characterEncoding=UTF-8
     username: root
-    password: 371412
+    password: 12345678
     driver-class-name: com.mysql.cj.jdbc.Driver

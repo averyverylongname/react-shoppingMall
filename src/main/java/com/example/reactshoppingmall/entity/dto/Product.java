@@ -1,4 +1,4 @@
-package com.example.reactshoppingmall.entity;
+package com.example.reactshoppingmall.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

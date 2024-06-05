@@ -1,0 +1,12 @@
+spring:
+  jpa:
+    #??SQL????????
+    show-sql: true
+    hibernate:
+      #????????????????????
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3306/shopping_mall?characterEncoding=UTF-8
+    username: root
+    password: 371412
+    driver-class-name: com.mysql.cj.jdbc.Driver

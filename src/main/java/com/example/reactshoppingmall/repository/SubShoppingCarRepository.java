@@ -16,5 +16,8 @@ import java.util.List;
 public interface SubShoppingCarRepository extends JpaRepository<SubShoppingCar, Integer> {
     List<SubShoppingCar> findByShoppingCarAndIsChooseTrue(ShoppingCar shoppingCar);
     SubShoppingCar findByProductAndUser(Product product, User user);
+    List<SubShoppingCar> findByUser(User user);
+    SubShoppingCar findByUserAndProduct(User user, Product product);
+    void deleteByShoppingCar(ShoppingCar shoppingCar);
 }
 

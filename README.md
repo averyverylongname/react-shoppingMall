@@ -1,0 +1,5 @@
+- 版本：java17
+- 数据库：
+  - application.yml修改账户密码
+  - 手动建仓库shopping_mall
+  - 运行项目自动建表

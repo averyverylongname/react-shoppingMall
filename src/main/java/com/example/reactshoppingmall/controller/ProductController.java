@@ -19,7 +19,7 @@ public class ProductController {
     //要求已检查、已上架、数量大于0
     @GetMapping("/getAll")
     public String getAllProducts() {
-        return RestBean.success(productService.getAllProducts()).asJsonString();
+        return RestBean.success(productService.getAllProductsWithConditions()).asJsonString();
     }
 
     //搜索商品
@@ -27,7 +27,7 @@ public class ProductController {
     //要求已检查、已上架、数量大于0
     @GetMapping("/search/{nameOrBrand}")
     public String searchProducts(@PathVariable String nameOrBrand) {
-        return RestBean.success(productService.searchProducts(nameOrBrand)).asJsonString();
+        return RestBean.success(productService.searchProductsWithNameOrBrand(nameOrBrand)).asJsonString();
     }
 
     //商品分类

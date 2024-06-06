@@ -1,5 +1,6 @@
 package com.example.reactshoppingmall.service;
 
+import com.example.reactshoppingmall.entity.dto.ShoppingCar;
 import com.example.reactshoppingmall.entity.dto.SubShoppingCar;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ShoppingCarService {
     void chooseProductInShoppingCar(Integer pid, Boolean isChoose, Integer uid);
     void changeProductQuantityInShoppingCar(Integer pid, Integer quantity, Integer uid);
     void clearShoppingCar(Integer uid);
+    void updateShoppingCarTotalPrice(ShoppingCar shoppingCar);
 }

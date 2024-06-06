@@ -73,7 +73,8 @@ public class ShoppingCarServiceImpl implements ShoppingCarService {
         }
     }
 
-    private void updateShoppingCarTotalPrice(ShoppingCar shoppingCar) {
+    @Override
+    public void updateShoppingCarTotalPrice(ShoppingCar shoppingCar) {
         List<SubShoppingCar> subShoppingCars = subShoppingCarRepository.findByShoppingCarAndIsChooseTrue(shoppingCar);
         double totalPrice = subShoppingCars.stream().mapToDouble(SubShoppingCar::getPrice).sum();
         shoppingCar.setTotalPrice(totalPrice);

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -32,6 +32,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SubOrderRepository subOrderRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Autowired
     private ShoppingCarService shoppingCarService;
@@ -64,7 +67,6 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         double totalPrice = 0.0;
-
         List<SubOrder> subOrders = new ArrayList<>();
 
         for (SubShoppingCar subShoppingCar : subShoppingCars) {
@@ -78,9 +80,18 @@ public class OrderServiceImpl implements OrderService {
                     .setOrder(order)
                     .setProduct(subShoppingCar.getProduct());
 
+            // 更新产品数量
+            Product product = subShoppingCar.getProduct();
+            int newQuantity = product.getQuantity() - subShoppingCar.getQuantity();
+            if (newQuantity < 0) {
+                throw new IllegalArgumentException("Product quantity is not sufficient");
+            }
+            product.setQuantity(newQuantity);
+            productRepository.save(product);
+
             subOrderRepository.save(subOrder);
-            subOrders.add(subOrder);
             totalPrice += subOrder.getPrice();
+            subOrders.add(subOrder);
         }
 
         order.setTotalPrice(totalPrice);
@@ -95,6 +106,7 @@ public class OrderServiceImpl implements OrderService {
 
         return subOrders;
     }
+
 
     @Override
     @Transactional
@@ -118,4 +130,49 @@ public class OrderServiceImpl implements OrderService {
         return subOrderRepository.findByOrder(order);
     }
 
+
+    @Override
+    @Transactional
+    public SubOrder buyProduct(Integer pid, Integer uid) {
+        User user = userRepository.findById(uid).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Product product = productRepository.findById(pid).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        if (product.getQuantity() <= 0) {
+            throw new IllegalArgumentException("Product quantity is not sufficient");
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String oidPrefix = sdf.format(new Date());
+        String oid = oidPrefix + UUID.randomUUID().toString();
+
+        Order order = new Order()
+                .setOid(oid)
+                .setTime(new Date())
+                .setNote(null)
+                .setPayMethod(null)
+                .setUser(user);
+
+        orderRepository.save(order);
+
+        String soid = oidPrefix + UUID.randomUUID().toString();
+        SubOrder subOrder = new SubOrder()
+                .setSoid(soid)
+                .setTime(new Date())
+                .setQuantity(1)
+                .setPrice(product.getPrice())
+                .setUser(user)
+                .setOrder(order)
+                .setProduct(product);
+
+        subOrderRepository.save(subOrder);
+
+        // 更新产品数量
+        product.setQuantity(product.getQuantity() - 1);
+        productRepository.save(product);
+
+        order.setTotalPrice(product.getPrice());
+        orderRepository.save(order);
+
+        return subOrder;
+    }
 }

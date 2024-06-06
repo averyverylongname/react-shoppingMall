@@ -11,4 +11,6 @@ public interface OrderService {
     void submitOrder(String oid, String note);
     void verifyOrder(String oid, String payMethod);
     List<SubOrder> getOrderWithSubOrders(String oid);
+    SubOrder buyProduct(Integer pid, Integer uid);
+
 }

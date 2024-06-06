@@ -1,6 +1,7 @@
 package com.example.reactshoppingmall.controller;
 
 import com.example.reactshoppingmall.entity.RestBean;
+import com.example.reactshoppingmall.entity.dto.SubOrder;
 import com.example.reactshoppingmall.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,10 @@ public class OrderController {
     @GetMapping("/getOrder/{oid}")
     public String getOrder(@PathVariable String oid) {
         return RestBean.success(orderService.getOrderWithSubOrders(oid)).asJsonString();
+    }
+
+    @PostMapping("/buy")
+    public String buyProduct(@RequestParam Integer pid, @RequestParam Integer uid) {
+        return RestBean.success(orderService.buyProduct(pid, uid)).asJsonString();
     }
 }

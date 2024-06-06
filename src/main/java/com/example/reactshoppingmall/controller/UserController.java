@@ -4,12 +4,10 @@ import com.example.reactshoppingmall.entity.RestBean;
 import com.example.reactshoppingmall.entity.dto.User;
 import com.example.reactshoppingmall.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -23,5 +21,10 @@ public class UserController {
         if (user!=null){
             return RestBean.success(user).asJsonString();
         }else return RestBean.failure(400, "用户不存在").asJsonString();
+    }
+
+    @GetMapping("/myHome/{uid}")
+    public String getUserById(@PathVariable Integer uid) {
+        return RestBean.success(userService.getUserById(uid)).asJsonString();
     }
 }

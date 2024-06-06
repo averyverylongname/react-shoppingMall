@@ -29,4 +29,9 @@ public class UserServiceImpl implements UserService {
 
         return null;
     }
+
+    @Override
+    public User getUserById(Integer uid) {
+        return userRepository.findById(uid).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
 }
